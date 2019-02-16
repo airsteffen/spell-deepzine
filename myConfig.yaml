@@ -27,7 +27,7 @@ data_hdf5: /home/shiz/Documents/SHIZ_CODE_ML/myDeepZine/shiz_data/data.hdf5
 # https://en.wikipedia.org/wiki/Lists_of_Internet_Archive%27s_collections.
 # Select a collection, and the identifier will be found at:
 # https://archive.org/details/[COLLECTION_IDENTIFIER]
-internetarchive_collection: MBLWHOI
+# internetarchive_collection: MBLWHOI
 
 # Number of PDFs downloaded are capped after this number.
 pdf_num: 10000
@@ -46,13 +46,14 @@ train: True
 # Models will be outputted into log_dir, One model will be output
 # for each resolution, labeled by output size, and each stage of 
 # training (interpolation / stable).
-log_dir: ~/models
+# log_dir: ~/models
+log_dir: /home/shiz/Documents/SHIZ_CODE_ML/myDeepZine/shiz_data/models
 model_save_interval_steps: 1000
 
 # Samples of the latent space, as well as real images,
 # will be saved periodically during training, and output 
 # into the samples_dir directory, and model_sample_interval_steps.
-samples_dir: ~/samples
+samples_dir: /home/shiz/Documents/SHIZ_CODE_ML/myDeepZine/shiz_data/samples
 model_sample_interval_steps: 400
 
 # -------------------------------------
