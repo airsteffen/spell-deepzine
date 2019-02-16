@@ -1,0 +1,142 @@
+# If you have multiple GPUs, you can choose which one here.
+# None means use all available GPUs.
+gpu_num: None
+
+# -------------------------------------
+
+# Set to true if you want to load and preprocess page
+# data from the Internet Archive. Overwrite if you want
+# to write over previous data loads.
+load_data: True
+overwrite: True
+
+# Data output filepaths. First, PDF files are saved to pdf_directory.
+# Then, they are convereted to images in image_directory. Then, they
+# are preprocessed and saved at multiple resolutions at data_hdf5.
+pdf_directory: ~/pdf_directory
+image_directory: ~/image_directory
+data_hdf5: ~/data.hdf5
+
+# Internet Archive collection identifier. I don't know if there is
+# a list of identifiers out there, but you can find collection IDs
+# by following links from this Wikipedia page: 
+# https://en.wikipedia.org/wiki/Lists_of_Internet_Archive%27s_collections.
+# Select a collection, and the identifier will be found at:
+# https://archive.org/details/[COLLECTION_IDENTIFIER]
+internetarchive_collection: MBLWHOI
+
+# Number of PDFs downloaded are capped after this number.
+pdf_num: 10000
+
+# PDF pages are reshaped to this size.
+# All output images are square, and must be powers of 2.
+# For example "128" means train the GAN up to 128x128 images.
+data_output_size: 1024
+
+# -------------------------------------
+
+# Set to true if you want to train a model. Model will train
+# on data loaded from "data_hdf5" set in the previous section.
+train: True
+
+# Models will be outputted into log_dir, One model will be output
+# for each resolution, labeled by output size, and each stage of 
+# training (interpolation / stable).
+log_dir: ~/models
+model_save_interval_steps: 1000
+
+# Samples of the latent space, as well as real images,
+# will be saved periodically during training, and output 
+# into the samples_dir directory, and model_sample_interval_steps.
+samples_dir: ~/samples
+model_sample_interval_steps: 400
+
+# -------------------------------------
+# Model parameters.
+
+# All output images are square, and must be powers of 2.
+# For example "128" means train the GAN up to 128x128 images.
+gan_output_size: 128
+
+# Model uses Adam optimizer by default on both D and G.
+learning_rate: .0001
+
+# Model training has two stages: one stage where it is interpolating
+# between the previous dimension and the current, and one stage where it
+# is training without interpolation on the current dimension. That means
+# the number of total iterations is iterations_per_stage * (2 * number of upsamples - 1)
+iterations_per_stage: 10000
+
+# Dimesionality of the latent variable
+latent_size: 128
+
+# Applies for both training and testing. (Hopefully changed soon).
+# To preserve space on smaller GPUs, the batch size can be reduced
+# at higher sizes starting with batch_size_reduction_transition_size.
+batch_size: 16
+batch_size_reduction_transition_size: 256
+reduced_batch_size: 4
+
+# How often model loss messages are generated during training.
+model_loss_output_interval_steps: 40
+
+# This version of the PGGAN uses two convolutions per resolution.
+# Each of one of those convolutional filters will have max_filter
+# number of filters. Starting at filter_num_reduction_transition_size,
+# the number of filters will be reduced by half at each subsequent
+# resolution.
+max_filter: 128
+filter_num_reduction_transition_size: 64 
+
+# I haven't actually tried using anything but one-to-one updates for
+# D and G, and in principle this kind of hyperparameter tuning exhausts
+# me. But go wild :)
+discriminator_updates: 1
+generator_updates: 1
+
+# -------------------------------------
+
+# Input model directory for inference. Subdirectory will be automatically
+# determined by the gan_output_size parameter. Must use the same model
+# parameters above as when originally trained, including batch size.
+# (Hopefully this will be fixed soon!)
+inference_model_directory: ~/models
+
+# The pretrained models provided in ./pretrained_models have a slightly
+# different number of filters than is standard in this codebase. I don't 
+# have the processing power to retrain with my updated code, so if you want
+# to use the pretrained_models, set this value to True to load the legacy
+# architecture.
+pretrained_model: False
+
+# Output directory for inference and interpolation runs.
+inference_output_directory: ~/inference_images
+
+# Set to true if you want to run simple inference on a model.
+inference: True
+
+# Number of latent vectors to sample.
+inference_output_num: 100
+
+# Set to true if you want to produce images interpolating between
+# one random point and another in the latent space. Interpolation
+# outputs save to inference_output_directory.
+interpolation: True
+
+# The number of images produced when interpolation between two
+# latent vectors.
+interpolation_frames: 100
+
+# The number of vectors to interpolate between in latent space.
+interpolation_vector_num: 10
+
+# Three modes for interpolating between two points. 'linear'
+# interpolation interpolates directly between two points. 'slerp'
+# is "spherical lienar interpolation" which seems to give 'smoother'
+# interpolations in latent space. 'tozero' is linear interpolation
+# that first goes towards the origin point and then out to the second
+# point, to display often interesting and unusual qualities of a GAN's
+# origin.
+interpolation_method: 'slerp'
+
+# -------------------------------------
