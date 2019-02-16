@@ -105,7 +105,7 @@ generator_updates: 1
 # determined by the gan_output_size parameter. Must use the same model
 # parameters above as when originally trained, including batch size.
 # (Hopefully this will be fixed soon!)
-inference_model_directory: ~/models
+inference_model_directory: /home/shiz/Documents/SHIZ_CODE_ML/myDeepZine/shiz_data/models
 
 # The pretrained models provided in ./pretrained_models have a slightly
 # different number of filters than is standard in this codebase. I don't 
@@ -115,7 +115,7 @@ inference_model_directory: ~/models
 pretrained_model: False
 
 # Output directory for inference and interpolation runs.
-inference_output_directory: ~/inference_images
+inference_output_directory: /home/shiz/Documents/SHIZ_CODE_ML/myDeepZine/shiz_data/inference_images
 
 # Set to true if you want to run simple inference on a model.
 inference: True
