@@ -41,114 +41,114 @@ from PIL import Image
 #     return
 
 
-# def convert_pdf_to_image(conversion_directory, output_directory, conversion_program='pdftoppm', pdftoppm_path='pdftoppm', ghostscript_path='gswin64c.exe"'):
+def convert_pdf_to_image(conversion_directory, output_directory, conversion_program='pdftoppm', pdftoppm_path='pdftoppm', ghostscript_path='gswin64c.exe"'):
 
-#     """ Converts a directory full of pdf files into png files using either the 
-#         external package pdftoppm or the external package ghostscript.
-#     """
+    """ Converts a directory full of pdf files into png files using either the 
+        external package pdftoppm or the external package ghostscript.
+    """
 
-#     print('Beginning pdf image conversion.')
+    print('Beginning pdf image conversion.')
 
-#     documents = glob.glob(os.path.join(conversion_directory, '*/'))
+    documents = glob.glob(os.path.join(conversion_directory, '*/'))
 
-#     for document in documents:
+    for document in documents:
         
-#         try:
+        try:
 
-#             pdfs = glob.glob(os.path.join(document, '*.pdf'))
-#             document_basename = os.path.join(output_directory, os.path.basename(os.path.dirname(document)))
+            pdfs = glob.glob(os.path.join(document, '*.pdf'))
+            document_basename = os.path.join(output_directory, os.path.basename(os.path.dirname(document)))
 
-#             first_page = glob.glob(document_basename + '*1.png')
-#             if first_page != []:
-#                 print('Skipping', document_basename)
-#                 continue
+            first_page = glob.glob(document_basename + '*1.png')
+            if first_page != []:
+                print('Skipping', document_basename)
+                continue
 
-#             for pdf in pdfs:
+            for pdf in pdfs:
 
-#                 print(pdf)
+                print(pdf)
 
-#                 if pdf.endswith('_bw.pdf'):
-#                     continue
+                if pdf.endswith('_bw.pdf'):
+                    continue
 
-#                 if conversion_program == 'pdftoppm':
-#                     command = pdftoppm_path + " " + pdf + " " + document_basename + " -png"
-#                 elif conversion_program == 'ghostscript':
-#                     command = ghostscript_path + " -dBATCH -dNOPAUSE -sDEVICE=png16m -r144 -sOutputFile=" + document_basename + "-%d.png" + ' ' + pdf
-#                 else:
-#                     print('Conversion program', conversion_program, 'not recognized, exiting.')
-#                     raise NotImplementedError
+                if conversion_program == 'pdftoppm':
+                    command = pdftoppm_path + " " + pdf + " " + document_basename + " -png"
+                elif conversion_program == 'ghostscript':
+                    command = ghostscript_path + " -dBATCH -dNOPAUSE -sDEVICE=png16m -r144 -sOutputFile=" + document_basename + "-%d.png" + ' ' + pdf
+                else:
+                    print('Conversion program', conversion_program, 'not recognized, exiting.')
+                    raise NotImplementedError
 
-#                 call(command, shell=True)
+                call(command, shell=True)
 
-#         except KeyboardInterrupt:
-#             print('Cancelling pdf to image conversion.')
-#             break
+        except KeyboardInterrupt:
+            print('Cancelling pdf to image conversion.')
+            break
 
-#     return
-
-
-# def create_hdf5_file(output_filepath, num_cases, output_sizes, preloaded=False):
-
-#     """ Creates a multi-tiered HDF5 file at each resolution provided in 'output_sizes'.
-#         Also stores string filepaths associated with the data.
-
-#         Big credit to https://github.com/ellisdg/3DUnetCNN for bringing HDF5 into
-#         my life.
-#     """
-
-#     hdf5_file = tables.open_file(output_filepath, mode='w')
-#     filters = tables.Filters(complevel=5, complib='blosc')
-
-#     hdf5_file.create_earray(hdf5_file.root, 'imagenames', tables.StringAtom(256), shape=(0, 1), filters=filters, expectedrows=num_cases)
-
-#     for output_size in output_sizes:
-#         hdf5_file.create_earray(hdf5_file.root, 'data_' + str(output_size[0]), tables.Float32Atom(), shape=(0,) + output_size, filters=filters, expectedrows=num_cases)
-
-#     return hdf5_file
+    return
 
 
-# def store_to_hdf5(data_directory, hdf5_filepath, output_size=64, verbose=True, preloaded=True):
+def create_hdf5_file(output_filepath, num_cases, output_sizes, preloaded=False):
 
-#     """ Stores a directory of images into an HDF5 file. Also resizes these images at every power
-#         of two between 4 and the output_size, provided that preloaded is set to True.
-#     """
+    """ Creates a multi-tiered HDF5 file at each resolution provided in 'output_sizes'.
+        Also stores string filepaths associated with the data.
 
-#     print('Beginning compression to HDF5')
+        Big credit to https://github.com/ellisdg/3DUnetCNN for bringing HDF5 into
+        my life.
+    """
 
-#     input_images = glob.glob(os.path.join(data_directory, '*.png'))
+    hdf5_file = tables.open_file(output_filepath, mode='w')
+    filters = tables.Filters(complevel=5, complib='blosc')
 
-#     if preloaded:
-#         output_sizes = [(4 * 2 ** x, 4 * 2 ** x, 3) for x in range(int(math.log(output_size, 2) - 1))]
-#     else:
-#         output_sizes = [(output_size, output_size, 3)]
+    hdf5_file.create_earray(hdf5_file.root, 'imagenames', tables.StringAtom(256), shape=(0, 1), filters=filters, expectedrows=num_cases)
 
-#     hdf5_file = create_hdf5_file(hdf5_filepath, num_cases=len(input_images), output_sizes=output_sizes)
+    for output_size in output_sizes:
+        hdf5_file.create_earray(hdf5_file.root, 'data_' + str(output_size[0]), tables.Float32Atom(), shape=(0,) + output_size, filters=filters, expectedrows=num_cases)
 
-#     for image in input_images:
-#         try:
+    return hdf5_file
 
-#             if verbose:
-#                 print('Storing...', image)
 
-#             img = Image.open(image)
-#             data = np.asarray(img, dtype=float)
+def store_to_hdf5(data_directory, hdf5_filepath, output_size=64, verbose=True, preloaded=True):
 
-#             for output_size in output_sizes:
-#                 if data.shape != output_size:
-#                     resized_data = imresize(data, (output_size[0], output_size[1]))
-#                 else:
-#                     resized_data = data
-#                 getattr(hdf5_file.root, 'data_' + str(output_size[0])).append(resized_data[np.newaxis] / 127.5 - 1)
+    """ Stores a directory of images into an HDF5 file. Also resizes these images at every power
+        of two between 4 and the output_size, provided that preloaded is set to True.
+    """
 
-#             hdf5_file.root.imagenames.append(np.array(os.path.basename(image))[np.newaxis][np.newaxis])
-#         except KeyboardInterrupt:
-#             raise
-#         except:
-#             print('ERROR WRITING TO HDF5', image)
+    print('Beginning compression to HDF5')
 
-#     hdf5_file.close()
+    input_images = glob.glob(os.path.join(data_directory, '*.png'))
 
-#     return hdf5_filepath
+    if preloaded:
+        output_sizes = [(4 * 2 ** x, 4 * 2 ** x, 3) for x in range(int(math.log(output_size, 2) - 1))]
+    else:
+        output_sizes = [(output_size, output_size, 3)]
+
+    hdf5_file = create_hdf5_file(hdf5_filepath, num_cases=len(input_images), output_sizes=output_sizes)
+
+    for image in input_images:
+        try:
+
+            if verbose:
+                print('Storing...', image)
+
+            img = Image.open(image)
+            data = np.asarray(img, dtype=float)
+
+            for output_size in output_sizes:
+                if data.shape != output_size:
+                    resized_data = imresize(data, (output_size[0], output_size[1]))
+                else:
+                    resized_data = data
+                getattr(hdf5_file.root, 'data_' + str(output_size[0])).append(resized_data[np.newaxis] / 127.5 - 1)
+
+            hdf5_file.root.imagenames.append(np.array(os.path.basename(image))[np.newaxis][np.newaxis])
+        except KeyboardInterrupt:
+            raise
+        except:
+            print('ERROR WRITING TO HDF5', image)
+
+    hdf5_file.close()
+
+    return hdf5_filepath
 
 
 class PageData(object):

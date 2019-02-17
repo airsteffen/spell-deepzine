@@ -5,7 +5,7 @@ import numpy as np
 import math
 
 # from download_internet_archive import internet_archive_download, convert_pdf_to_image, store_to_hdf5, PageData
-from download_internet_archive import PageData
+from download_internet_archive import convert_pdf_to_image, store_to_hdf5, PageData
 
 from utils import add_parameter
 from model import PGGAN
@@ -122,28 +122,28 @@ class DeepZine(object):
             else:
                 output_hdf5 = None
 
-        # if output_hdf5 is None:
+        if output_hdf5 is None:
 
-        #     # Create a working data_directory if necessary.
-        #     if not os.path.exists(self.pdf_directory) and not self.download_pdf:
-        #         raise ValueError('Data directory not found.')
-        #     elif not os.path.exists(self.pdf_directory):
-        #         os.mkdir(self.pdf_directory)
+            # Create a working data_directory if necessary.
+            if not os.path.exists(self.pdf_directory) and not self.download_pdf:
+                raise ValueError('Data directory not found.')
+            elif not os.path.exists(self.pdf_directory):
+                os.mkdir(self.pdf_directory)
 
-        #     # Download data
-        #     # ---------------------------------------------
-        #     # if self.download_pdf:
-        #     #     internet_archive_download(self.pdf_directory, self.internetarchive_collection, self.pdf_num)
+            # Download data
+            # ---------------------------------------------
+            # if self.download_pdf:
+            #     internet_archive_download(self.pdf_directory, self.internetarchive_collection, self.pdf_num)
 
-        #     # Convert PDFs into images.
-        #     # ---------------------------------------------
-        #     # if self.convert_pdf:
-        #     #     if not os.path.exists(self.image_directory):
-        #     #         os.mkdir(self.image_directory)
-        #     #     convert_pdf_to_image(self.pdf_directory, self.image_directory, conversion_program=self.pdf_conversion_program)
+            # Convert PDFs into images.
+            # ---------------------------------------------
+            if self.convert_pdf:
+                if not os.path.exists(self.image_directory):
+                    os.mkdir(self.image_directory)
+                convert_pdf_to_image(self.pdf_directory, self.image_directory, conversion_program=self.pdf_conversion_program)
 
-        #     # Preprocess images and write to HDF5.
-        #     # output_hdf5 = store_to_hdf5(self.image_directory, self.data_hdf5, self.data_output_size)
+            Preprocess images and write to HDF5.
+            output_hdf5 = store_to_hdf5(self.image_directory, self.data_hdf5, self.data_output_size)
 
         output_hdf5 = tables.open_file(output_hdf5, "r")
 
