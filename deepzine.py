@@ -4,7 +4,9 @@ import tables
 import numpy as np
 import math
 
-from download_internet_archive import internet_archive_download, convert_pdf_to_image, store_to_hdf5, PageData
+# from download_internet_archive import internet_archive_download, convert_pdf_to_image, store_to_hdf5, PageData
+from download_internet_archive import convert_pdf_to_image, store_to_hdf5, PageData
+
 from utils import add_parameter
 from model import PGGAN
 
@@ -129,10 +131,12 @@ class DeepZine(object):
                 os.mkdir(self.pdf_directory)
 
             # Download data
-            if self.download_pdf:
-                internet_archive_download(self.pdf_directory, self.internetarchive_collection, self.pdf_num)
+            # ---------------------------------------------
+            # if self.download_pdf:
+            #     internet_archive_download(self.pdf_directory, self.internetarchive_collection, self.pdf_num)
 
             # Convert PDFs into images.
+            # ---------------------------------------------
             if self.convert_pdf:
                 if not os.path.exists(self.image_directory):
                     os.mkdir(self.image_directory)

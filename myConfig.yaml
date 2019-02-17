@@ -30,7 +30,7 @@ data_hdf5: /home/shiz/Documents/SHIZ_CODE_ML/myDeepZine/shiz_data/data.hdf5
 # internetarchive_collection: MBLWHOI
 
 # Number of PDFs downloaded are capped after this number.
-pdf_num: 10000
+# pdf_num: 10000
 
 # PDF pages are reshaped to this size.
 # All output images are square, and must be powers of 2.

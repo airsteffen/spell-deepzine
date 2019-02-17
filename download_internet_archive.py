@@ -13,32 +13,32 @@ from scipy.misc import imresize
 from PIL import Image
 
 
-def internet_archive_download(destination_directory, collection='MBLWHOI', pdf_num=None):
+# def internet_archive_download(destination_directory, collection='MBLWHOI', pdf_num=None):
 
-    """ Uses the internetarchive Python package to stream pdf pages from a given collection
-        into a provided destination_directory.
-    """
+#     """ Uses the internetarchive Python package to stream pdf pages from a given collection
+#         into a provided destination_directory.
+#     """
 
-    print('Beginning internet archive download...')
+#     print('Beginning internet archive download...')
 
-    for i in internetarchive.search_items('collection:' + collection):
+#     for i in internetarchive.search_items('collection:' + collection):
 
-        if pdf_num is not None:
-            if i == pdf_num:
-                break
+#         if pdf_num is not None:
+#             if i == pdf_num:
+#                 break
 
-        archive_id = i['identifier']
-        try:
-            if not os.path.exists(os.path.join(destination_directory, archive_id)):
-                x = internetarchive.download(archive_id, verbose=True, glob_pattern='*.pdf', destdir=destination_directory)
-            elif os.listdir(os.path.join(destination_directory, archive_id)) == []:
-                x = internetarchive.download(archive_id, verbose=True, glob_pattern='*.pdf', destdir=destination_directory)
-        except KeyboardInterrupt:
-            print('Cancelling download.')
-            break
-        except:
-            print('ERROR downloading', archive_id)
-    return
+#         archive_id = i['identifier']
+#         try:
+#             if not os.path.exists(os.path.join(destination_directory, archive_id)):
+#                 x = internetarchive.download(archive_id, verbose=True, glob_pattern='*.pdf', destdir=destination_directory)
+#             elif os.listdir(os.path.join(destination_directory, archive_id)) == []:
+#                 x = internetarchive.download(archive_id, verbose=True, glob_pattern='*.pdf', destdir=destination_directory)
+#         except KeyboardInterrupt:
+#             print('Cancelling download.')
+#             break
+#         except:
+#             print('ERROR downloading', archive_id)
+#     return
 
 
 def convert_pdf_to_image(conversion_directory, output_directory, conversion_program='pdftoppm', pdftoppm_path='pdftoppm', ghostscript_path='gswin64c.exe"'):
