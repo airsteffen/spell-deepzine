@@ -137,10 +137,10 @@ class DeepZine(object):
 
             # Convert PDFs into images.
             # ---------------------------------------------
-            if self.convert_pdf:
-                if not os.path.exists(self.image_directory):
-                    os.mkdir(self.image_directory)
-                convert_pdf_to_image(self.pdf_directory, self.image_directory, conversion_program=self.pdf_conversion_program)
+            # if self.convert_pdf:
+            #     if not os.path.exists(self.image_directory):
+            #         os.mkdir(self.image_directory)
+            #     convert_pdf_to_image(self.pdf_directory, self.image_directory, conversion_program=self.pdf_conversion_program)
 
             # Preprocess images and write to HDF5.
             output_hdf5 = store_to_hdf5(self.image_directory, self.data_hdf5, self.data_output_size)
