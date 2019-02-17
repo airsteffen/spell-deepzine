@@ -61,6 +61,7 @@ model_sample_interval_steps: 400
 
 # All output images are square, and must be powers of 2.
 # For example "128" means train the GAN up to 128x128 images.
+# gan_output_size: 128
 gan_output_size: 1024
 
 # Model uses Adam optimizer by default on both D and G.
