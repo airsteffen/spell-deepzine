@@ -17,9 +17,9 @@ overwrite: False
 # Data output filepaths. First, PDF files are saved to pdf_directory.
 # Then, they are convereted to images in image_directory. Then, they
 # are preprocessed and saved at multiple resolutions at data_hdf5.
-pdf_directory: uploads/shiz_data/pdf_directory
-image_directory: uploads/image_directory
-data_hdf5: uploads/data.hdf5
+pdf_directory: ~/uploads/shiz_data/pdf_directory
+image_directory: ~/uploads/image_directory
+data_hdf5: ~/uploads/data.hdf5
 
 # Internet Archive collection identifier. I don't know if there is
 # a list of identifiers out there, but you can find collection IDs
@@ -47,13 +47,13 @@ train: True
 # for each resolution, labeled by output size, and each stage of 
 # training (interpolation / stable).
 # log_dir: ~/models
-log_dir: uploads/shiz_data/models
+log_dir: ~/uploads/shiz_data/models
 model_save_interval_steps: 1000
 
 # Samples of the latent space, as well as real images,
 # will be saved periodically during training, and output 
 # into the samples_dir directory, and model_sample_interval_steps.
-samples_dir: uploads/shiz_data/samples
+samples_dir: ~/uploads/shiz_data/samples
 model_sample_interval_steps: 400
 
 # -------------------------------------
@@ -105,7 +105,7 @@ generator_updates: 1
 # determined by the gan_output_size parameter. Must use the same model
 # parameters above as when originally trained, including batch size.
 # (Hopefully this will be fixed soon!)
-inference_model_directory: uploads/shiz_data/models
+inference_model_directory: ~/uploads/shiz_data/models
 
 # The pretrained models provided in ./pretrained_models have a slightly
 # different number of filters than is standard in this codebase. I don't 
@@ -115,7 +115,7 @@ inference_model_directory: uploads/shiz_data/models
 pretrained_model: False
 
 # Output directory for inference and interpolation runs.
-inference_output_directory: uploads/shiz_data/inference_images
+inference_output_directory: ~/uploads/shiz_data/inference_images
 
 # Set to true if you want to run simple inference on a model.
 inference: True
