@@ -147,7 +147,7 @@ class DeepZine(object):
 
         output_hdf5 = tables.open_file(output_hdf5, "r")
 
-        Convert to data-loading object. The logic is all messed up here for pre-loading images.
+        # Convert to data-loading object. The logic is all messed up here for pre-loading images.
         return PageData(hdf5=output_hdf5, output_size=self.gan_output_size)
 
     def train_gan(self):
