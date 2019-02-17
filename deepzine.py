@@ -5,7 +5,7 @@ import numpy as np
 import math
 
 # from download_internet_archive import internet_archive_download, convert_pdf_to_image, store_to_hdf5, PageData
-from download_internet_archive import convert_pdf_to_image, store_to_hdf5, PageData
+from download_internet_archive import PageData
 
 from utils import add_parameter
 from model import PGGAN
