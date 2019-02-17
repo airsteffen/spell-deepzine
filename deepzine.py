@@ -111,44 +111,44 @@ class DeepZine(object):
             self.training_storage.close()
             self.training_storage = None
 
-    def download_data(self):
+    # def download_data(self):
 
-        # Check if an HDF5 exists, otherwise initiate the process of creating one.
-        if self.data_hdf5 is None:
-            raise ValueError('Please provide an HDF5 file to stream data from.')
-        else:
-            if os.path.exists(self.data_hdf5) and not self.overwrite:
-                output_hdf5 = self.data_hdf5
-            else:
-                output_hdf5 = None
+    #     # Check if an HDF5 exists, otherwise initiate the process of creating one.
+    #     if self.data_hdf5 is None:
+    #         raise ValueError('Please provide an HDF5 file to stream data from.')
+    #     else:
+    #         if os.path.exists(self.data_hdf5) and not self.overwrite:
+    #             output_hdf5 = self.data_hdf5
+    #         else:
+    #             output_hdf5 = None
 
-        # if output_hdf5 is None:
+    #     # if output_hdf5 is None:
 
-        #     # Create a working data_directory if necessary.
-        #     if not os.path.exists(self.pdf_directory) and not self.download_pdf:
-        #         raise ValueError('Data directory not found.')
-        #     elif not os.path.exists(self.pdf_directory):
-        #         os.mkdir(self.pdf_directory)
+    #     #     # Create a working data_directory if necessary.
+    #     #     if not os.path.exists(self.pdf_directory) and not self.download_pdf:
+    #     #         raise ValueError('Data directory not found.')
+    #     #     elif not os.path.exists(self.pdf_directory):
+    #     #         os.mkdir(self.pdf_directory)
 
-        #     # Download data
-        #     # ---------------------------------------------
-        #     # if self.download_pdf:
-        #     #     internet_archive_download(self.pdf_directory, self.internetarchive_collection, self.pdf_num)
+    #     #     # Download data
+    #     #     # ---------------------------------------------
+    #     #     # if self.download_pdf:
+    #     #     #     internet_archive_download(self.pdf_directory, self.internetarchive_collection, self.pdf_num)
 
-        #     # Convert PDFs into images.
-        #     # ---------------------------------------------
-        #     # if self.convert_pdf:
-        #     #     if not os.path.exists(self.image_directory):
-        #     #         os.mkdir(self.image_directory)
-        #     #     convert_pdf_to_image(self.pdf_directory, self.image_directory, conversion_program=self.pdf_conversion_program)
+    #     #     # Convert PDFs into images.
+    #     #     # ---------------------------------------------
+    #     #     # if self.convert_pdf:
+    #     #     #     if not os.path.exists(self.image_directory):
+    #     #     #         os.mkdir(self.image_directory)
+    #     #     #     convert_pdf_to_image(self.pdf_directory, self.image_directory, conversion_program=self.pdf_conversion_program)
 
-        #     # Preprocess images and write to HDF5.
-        #     # output_hdf5 = store_to_hdf5(self.image_directory, self.data_hdf5, self.data_output_size)
+    #     #     # Preprocess images and write to HDF5.
+    #     #     # output_hdf5 = store_to_hdf5(self.image_directory, self.data_hdf5, self.data_output_size)
 
-        # output_hdf5 = tables.open_file(output_hdf5, "r")
+    #     # output_hdf5 = tables.open_file(output_hdf5, "r")
 
-        # Convert to data-loading object. The logic is all messed up here for pre-loading images.
-        return PageData(hdf5=output_hdf5, output_size=self.gan_output_size)
+    #     # Convert to data-loading object. The logic is all messed up here for pre-loading images.
+    #     return PageData(hdf5=output_hdf5, output_size=self.gan_output_size)
 
     def train_gan(self):
 
