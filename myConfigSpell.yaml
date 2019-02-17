@@ -92,7 +92,7 @@ model_loss_output_interval_steps: 40
 # the number of filters will be reduced by half at each subsequent
 # resolution.
 max_filter: 128
-filter_num_reduction_transition_size: 64 
+filter_num_reduction_transition_size: 256 
 
 # I haven't actually tried using anything but one-to-one updates for
 # D and G, and in principle this kind of hyperparameter tuning exhausts
@@ -106,7 +106,7 @@ generator_updates: 1
 # determined by the gan_output_size parameter. Must use the same model
 # parameters above as when originally trained, including batch size.
 # (Hopefully this will be fixed soon!)
-inference_model_directory: /models
+inference_model_directory: ./pretrained_models
 
 # The pretrained models provided in ./pretrained_models have a slightly
 # different number of filters than is standard in this codebase. I don't 
@@ -119,7 +119,7 @@ pretrained_model: False
 inference_output_directory: /inference_images
 
 # Set to true if you want to run simple inference on a model.
-inference: True
+inference: False
 
 # Number of latent vectors to sample.
 inference_output_num: 100
